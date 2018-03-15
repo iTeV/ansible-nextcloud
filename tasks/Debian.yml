@@ -1,0 +1,51 @@
+---
+- name: Including debian vars
+  include_vars: Debian.yml
+  when: ansible_distribution == "Debian"
+
+- name: Including ubuntu vars
+  include_vars: Ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Including dotdeb tasks
+  include_tasks: dotdeb.yml
+  when: ansible_distribution == "Debian" and ansible_distribution_release == "jessie" or ansible_distribution_release == "wheezy"
+
+- name: Installing required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ apt_required_packages }}"
+
+- name: Making sure mysql service is started
+  service:
+    name: mysql
+    state: started
+
+- name: Including nextcloud tasks
+  include_tasks: Nextcloud.yml
+
+- name: Including apache2 tasks
+  include_tasks: apache2.yml
+
+- name: Including pip tasks
+  include_tasks: pip.yml
+
+- name: Including mysql tasks
+  include_tasks: mysql.yml
+
+- name: Correcting permissions on "{{ nextcloud_webroot }}"
+  file:
+    path: "{{ nextcloud_webroot }}/nextcloud"
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Sending data to nextcloud
+  uri:
+    status_code: 302
+    url: "http://{{ ansible_default_ipv4.address }}/nextcloud/index.php"
+    method: "POST"
+    body: "install=true&adminlogin={{ nextcloud_user_name }}&adminpass={{ nextcloud_user_password }}&adminpass-clone={{ nextcloud_user_password }}&directory={{ nextcloud_data_directory }}&dbtype=mysql&dbuser={{ mysql_nextcloud_user_name }}&dbpass={{ mysql_nextcloud_user_password }}&dbname={{ mysql_nextcloud_db }}&dbhost=localhost"

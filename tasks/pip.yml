@@ -1,0 +1,6 @@
+---
+- name: Installing required pip packages
+  pip:
+    name: "mysql-python"
+    state: present
+

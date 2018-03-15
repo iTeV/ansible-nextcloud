@@ -1,0 +1,14 @@
+---
+- name: Adding dotdeb repo APT key
+  apt_key:
+    url: "https://www.dotdeb.org/dotdeb.gpg"
+    state: present
+
+- name: Adding dotdeb repository
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "deb http://packages.dotdeb.org {{ ansible_distribution_release | lower }} all"
+    - "deb-src http://packages.dotdeb.org {{ ansible_distribution_release | lower }} all"

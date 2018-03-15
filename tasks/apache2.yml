@@ -1,0 +1,26 @@
+---
+- name: Copying nextcloud apache2 template over to node
+  template:
+    src: "nextcloud.conf.j2"
+    dest: "/etc/apache2/sites-available/nextcloud.conf"
+
+- name: Enabling required apache2 modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "rewrite"
+    - "headers"
+    - "env"
+    - "dir"
+    - "mime"
+
+- name: Enabling nextcloud website
+  command: a2ensite nextcloud
+  register: enable_site
+  changed_when: "enable_site.rc != 0"
+
+- name: Reloading apache2
+  service:
+    name: apache2
+    state: reloaded

@@ -1,0 +1,11 @@
+---
+- name: Fetching nextcloud package
+  get_url:
+    url: "https://download.nextcloud.com/server/releases/nextcloud-{{ nextcloud_version }}.zip"
+    dest: "/tmp/"
+
+- name: Extracting nextcloud package
+  unarchive:
+    remote_src: "yes"
+    src: "/tmp/nextcloud-{{ nextcloud_version }}.zip"
+    dest: "{{ nextcloud_webroot }}"

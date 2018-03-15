@@ -1,0 +1,14 @@
+Alias /nextcloud "{{ nextcloud_webroot }}/nextcloud"
+
+<Directory {{ nextcloud_webroot }}/nextcloud/>
+  Options +FollowSymlinks
+  AllowOverride All
+
+ <IfModule mod_dav.c>
+  Dav off
+ </IfModule>
+
+ SetEnv HOME {{ nextcloud_webroot }}/nextcloud
+ SetEnv HTTP_HOME {{ nextcloud_webroot}}/nextcloud
+
+</Directory>

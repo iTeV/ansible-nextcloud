@@ -1,0 +1,11 @@
+---
+nextcloud_version: "13.0.0" # which nextcloud version to use
+nextcloud_webroot: "/var/www/" # Webroot to use for nextcloud
+mysql_change_root_password: true # Wether the MySQL root password should changed
+mysql_root_password: "root" # Password for the root used, will only be set if mysql_change_root_password is set to true
+mysql_nextcloud_user_name: "nextcloud" # MySQL username that will be used by the nextcloud application
+mysql_nextcloud_user_password: "nextcloud" # MySQL password for the nextcloud user
+mysql_nextcloud_db: "nextcloud" # MySQL database that should be created for nextcloud application
+nextcloud_user_name: "nextcloud" # User to be created on nextcloud
+nextcloud_user_password: "nextcloud" # Password for the nextcloud user
+nextcloud_data_directory: "/var/www/nextcloud/data" # Which data directory to use for nextcloud

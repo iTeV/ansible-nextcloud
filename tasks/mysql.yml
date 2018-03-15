@@ -1,0 +1,21 @@
+---
+- name: Setting password for MySQL root user
+  mysql_user:
+    name: "root"
+    password: "{{ mysql_root_password }}"
+  when: mysql_change_root_password
+
+- name: Creating nextcloud database
+  mysql_db:
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mysql_nextcloud_db }}"
+    state: present
+
+- name: Creating nextcloud user
+  mysql_user:
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mysql_nextcloud_user_name }}"
+    password: "{{ mysql_nextcloud_user_password }}"
+    priv: "{{ mysql_nextcloud_db}}.*:ALL"
