@@ -4,9 +4,12 @@ services: docker
 python: "2.7"
 
 env:
-  - distro: ubuntu1804
-  - distro: debian8
-  - distro: debian9
+  - distribution: ubuntu
+    version: 1804
+  - distribution: debian
+    version: 8
+  - distribution: debian
+    version: 9
 
 before_install:
   - sudo apt-get update -qq
