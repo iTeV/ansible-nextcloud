@@ -4,7 +4,7 @@ services: docker
 python: "2.7"
 
 env:
-  - distro: ubuntu1604
+  - distro: ubuntu1804
   - distro: debian8
   - distro: debian9
 
